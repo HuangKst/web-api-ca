@@ -21,7 +21,7 @@ const LoginPage = props => {
     if (context.isAuthenticated === true) {
         return <Navigate to={from} />; 
     }
-
+ 
     return (
         <>
             <h2>Login page</h2>

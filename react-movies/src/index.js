@@ -18,7 +18,7 @@ import WatchListPage from "./pages/watchListPage";
 import ProtectedRoutes from "./protectRoutes";
 import LoginPage from "./pages/LoginPage";
 import AuthContextProvider from "./contexts/authContext";
-
+import SignUpPage from "./pages/signUpPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -47,7 +47,8 @@ const Layout = () => {
           <Route path="/movies/:id/cast" element={<ListOfCreditsPage />} />
           <Route path="/movies/watchList" element={<WatchListPage />} />
         </Route>
-        <Route path="/" element={<LoginPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignUpPage/>}/>
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </>
