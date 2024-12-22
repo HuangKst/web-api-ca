@@ -10,7 +10,7 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import img from '../../images/pexels-dziana-hasanbekava-5480827.jpg'
 import React, {useState, useEffect}  from "react";
-import { getGenres } from "../../api/tmdb-api";
+import { getGenres } from "../../api/movies-api";
 import { useQuery } from "react-query";
 import Spinner from '../spinner'
 
@@ -32,7 +32,7 @@ export default function FilterMoviesCard(props) {
   if (isError) {
     return <h1>{error.message}</h1>;
   }
-  const genres = data.genres;
+  const genres = data;
   if (genres[0].name !== "All"){
     genres.unshift({ id: "0", name: "All" });
   }
