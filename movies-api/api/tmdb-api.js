@@ -66,4 +66,20 @@ export const getMovies = (page = 1) => {
       throw error
    });
   };
+
+  export const getMovieImages = (id) => {
+    return fetch(
+      `https://api.themoviedb.org/3/movie/${id}/images?api_key=${process.env.TMDB_KEY}`
+    ).then( (response) => {
+      if (!response.ok) {
+        return response.json().then((error) => {
+          throw new Error(error.status_message || "Something went wrong");
+        });
+      }
+      return response.json();
+    })
+    .catch((error) => {
+      throw error
+   });
+  };
     
