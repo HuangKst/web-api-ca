@@ -7,4 +7,15 @@ export const getGenres = async() => {
     }
     )
     return response.json();
-  };
+};
+
+export const getUpcomingMovies = async(page) => {
+  const response = await fetch(
+    `http://localhost:8080/api/movies/upcoming?page=${page}`, {
+    headers: {
+      'Authorization': window.localStorage.getItem('token')
+    }
+  }
+  )
+  return response.json();
+};
