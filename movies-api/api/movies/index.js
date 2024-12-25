@@ -2,7 +2,7 @@ import movieModel from './movieModel';
 import asyncHandler from 'express-async-handler';
 import express, { json } from 'express';
 import {
-    getUpcomingMovies,getGenres,getMovies,getMovie,getMovieImages
+    getUpcomingMovies,getGenres,getMovies,getMovie,getMovieImages,getTopRateMovies
   } from '../tmdb-api';
   
 const router = express.Router();
@@ -46,6 +46,26 @@ router.get('/',asyncHandler(async(req,res)=>{
         res.status(500).json({ message: 'Failed to fetch movies' });
       }
 }));
+//Get /api/movies/top-rate?page=2
+router.get('/top-rate',asyncHandler(async(req,res)=>{
+  let {page=1} = req.query;
+  page = parseInt(page,10);
+
+  if (isNaN(page) || page < 1) {
+      return res
+        .status(400)
+        .json({ message: 'Invalid page number. Must be a positive integer.' });
+    }
+  
+    try {
+      const data = await getTopRateMovies(page);
+      res.status(200).json(data);
+    } catch (error) {
+      console.error('Error fetching upcoming movies:', error.message);
+      res.status(500).json({ message: 'Failed to fetch movies' });
+    }
+}));
+
 
 //Get /api/movies/id/images 
 router.get('/:id/images',asyncHandler(async(req, res)=>{
