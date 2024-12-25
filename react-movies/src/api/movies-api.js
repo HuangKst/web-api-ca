@@ -58,3 +58,15 @@ export const getMovieImages = async(args) => {
   )
   return response.json(); 
 }; 
+
+//find movie images by id 
+export const getTopRateMovies = async(page) => {
+  const response = await fetch(
+    `http://localhost:8080/api/movies/top-rate`, {
+    headers: {
+      'Authorization': window.localStorage.getItem('token')
+    }
+  } 
+  )
+  return response.json(); 
+}; 
