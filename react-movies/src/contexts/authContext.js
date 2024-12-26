@@ -1,13 +1,16 @@
 import React, { useState, createContext } from "react";
 import { login, signup } from "../api/users-api";
+import { use } from "react";
 
 export const AuthContext = createContext(null);
 
 const AuthContextProvider = (props) => {
   const existingToken = localStorage.getItem("token");
+  const[userId,setUserId] = useState("")
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [authToken, setAuthToken] = useState(existingToken);
   const [userName, setUserName] = useState("");
+
 
   //Function to put JWT token in local storage.
   const setToken = (data) => {
@@ -21,6 +24,8 @@ const AuthContextProvider = (props) => {
       setToken(result.token)
       setIsAuthenticated(true);
       setUserName(username);
+      localStorage.setItem("userId",result.user.userId)
+      setUserId(result.user.userId)
     }
   };
 
@@ -41,7 +46,8 @@ const AuthContextProvider = (props) => {
         authenticate,
         register,
         signout,
-        userName
+        userName,
+        userId
       }}
     >
       {props.children}

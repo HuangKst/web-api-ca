@@ -1,13 +1,38 @@
-import React, { useState } from "react";
-
+import React, { useState,useEffect, useContext } from "react";
+import { getFavouriteMovies,addFavouriteMovie,deleteFavouriteMovie } from "../api/favourite-api";
+import AuthContext from "./authContext";
 export const MoviesContext = React.createContext(null);
 
+
 const MoviesContextProvider = (props) => {
+  
   const [favorites, setFavorites] = useState( [] )
   const [myReviews, setMyReviews] = useState( {} ) 
   const [playList, setPlayList] = useState([])
-  const [user, setUser] = useState(null);
 
+  const userId = localStorage.getItem("userId")
+
+  
+
+
+    useEffect(() => {
+      const fetchFavourites = async () => {
+        if (userId) {
+          // 调用后端API
+          console.log(userId)
+          const data = await getFavouriteMovies(userId);
+          if (Array.isArray(data)) {
+            // data.favourites是数组：[{userId, movieId, _id, ...}, ...]
+            const movieIds = data.map((f) => f.movieId);
+            console.log("movieid" + movieIds);
+            setFavorites(movieIds);
+          } else {
+            console.warn(data.msg || "Failed to fetch favourites");
+          }
+        }
+      };
+      fetchFavourites();
+    },[userId])
   
   
 
@@ -16,15 +41,15 @@ const MoviesContextProvider = (props) => {
   };
   //console.log(myReviews);
 
-  const addToFavorites = (movie) => {
-    let newFavorites = [];
-    if (!favorites.includes(movie.id)){
-      newFavorites = [...favorites, movie.id];
+  const addToFavorites = async (movie) => {
+    // 调后端
+    const result = await addFavouriteMovie(userId, movie.id);
+    if (result.success) {
+      // 更新本地state
+      setFavorites([...favorites, movie.id]);
+    } else {
+      alert(result.msg || "Add to favourites failed.");
     }
-    else{
-      newFavorites = [...favorites];
-    }
-    setFavorites(newFavorites)
   };
 
   
@@ -41,10 +66,16 @@ const MoviesContextProvider = (props) => {
 
   
   // We will use this function in the next step
-  const removeFromFavorites = (movie) => {
-    setFavorites( favorites.filter(
-      (mId) => mId !== movie.id
-    ) )
+  const removeFromFavorites = async (movie) => {
+   
+    // 调后端
+    const result = await deleteFavouriteMovie(userId, movie.id);
+    if (result.success) {
+      // 更新本地state
+      setFavorites(favorites.filter((mId) => mId !== movie.id));
+    } else {
+      alert(result.msg || "Remove from favourites failed.");
+    }
   };
 
   const removeFromWatchList=(movie)=>{
@@ -55,6 +86,7 @@ const MoviesContextProvider = (props) => {
     )
 
   }
+
 
 
   
@@ -68,8 +100,7 @@ const MoviesContextProvider = (props) => {
         addMovieToPlayList,
         playList,
         removeFromWatchList,
-        user,
-        setUser
+        userId
        
       }}
     >
