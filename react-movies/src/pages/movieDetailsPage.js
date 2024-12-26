@@ -7,7 +7,7 @@ import PageTemplate from '../components/templateMoviePage';
 import Spinner from '../components/spinner';
 import CreditsList from '../components/creditsList';
 import { getMovie } from '../api/movies-api';
-import { getMovieCredits } from '../api/tmdb-api';
+import { getMovieCredits } from '../api/movies-api';
 
 const MoviePage = () => {
   const { id } = useParams();

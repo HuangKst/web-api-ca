@@ -13,14 +13,6 @@ import { useQuery } from "react-query";
 import Spinner from '../spinner'
 
 export default function MovieReviews({ movie }) {
-  // const [reviews, setReviews] = useState([]);
-
-  // useEffect(() => {
-  //   getMovieReviews(movie.id).then((reviews) => {
-  //     setReviews(reviews);
-  //   });
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
   const { data , error, isLoading, isError } = useQuery(
     ["reviews", { id: movie.id }],
     getMovieReviews

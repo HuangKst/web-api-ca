@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import {getMovie} from"../api/movies-api"
-import { getMovieCredits } from "../api/tmdb-api";
+import { getMovieCredits } from "../api/movies-api";
 import MovieHeader from "../components/headerMovie";
 import Spinner from "../components/spinner";
 import Grid from "@mui/material/Grid";
