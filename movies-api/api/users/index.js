@@ -56,8 +56,14 @@ async function authenticateUser(req, res) {
 
     const isMatch = await user.comparePassword(req.body.password);
     if (isMatch) {
-        const token = jwt.sign({ username: user.username }, process.env.SECRET);
-        res.status(200).json({ success: true, token: 'BEARER ' + token });
+        const token = jwt.sign({ username: user.username,useId: user.userid }, process.env.SECRET);
+        res.status(200).json({ 
+            success: true,
+             token: 'BEARER ' + token,
+             user:{
+                userId:user.userId
+             }
+             });
     } else {
         res.status(401).json({ success: false, msg: 'Wrong password.' });
     }

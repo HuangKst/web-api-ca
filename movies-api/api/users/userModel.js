@@ -4,6 +4,10 @@ import bcrypt from 'bcrypt';
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
+  userId: {
+    type: String,
+    unique: true,
+  },
   username: { type: String, unique: true, required: true},
   password: {
     type: String,
@@ -25,10 +29,14 @@ UserSchema.statics.findByUserName = function (username) {
     return this.findOne({ username: username });
 };
 UserSchema.pre('save', async function(next) {
-    const saltRounds = 10; // You can adjust the number of salt rounds
-    //const user = this;
+    if (!this.userId) {
+        this.userId = nanoid(12); 
+        // 这里的 12 表示生成12位的随机字符串，你也可以不传，默认21位
+    }
+
     if (this.isModified('password') || this.isNew) {
       try {
+        const saltRounds = 10;
         const hash = await bcrypt.hash(this.password, saltRounds);
         this.password = hash;
         next();
