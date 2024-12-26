@@ -3,7 +3,7 @@ import asyncHandler from 'express-async-handler';
 import express, { json } from 'express';
 import {
     getUpcomingMovies,getGenres,getMovies,getMovie,getMovieImages,getTopRateMovies,
-    getMovieReviews
+    getMovieReviews,getMovieCredits
   } from '../tmdb-api';
   
 const router = express.Router();
@@ -87,6 +87,17 @@ router.get('/:id/reviews',asyncHandler(async(req, res)=>{
       res.status(200).json(images);
   } else {
       res.status(404).json({message: 'The reviews you requested could not be found.', status_code: 404});
+  } 
+}))
+
+//Get /api/movies/id/credits
+router.get('/:id/credits',asyncHandler(async(req, res)=>{
+  const id = parseInt(req.params.id);
+  const images = await getMovieCredits(id);
+  if (images) {
+      res.status(200).json(images);
+  } else {
+      res.status(404).json({message: 'The list of credits you requested could not be found.', status_code: 404});
   } 
 }))
 
