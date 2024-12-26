@@ -131,7 +131,7 @@ export const getMovies = (page = 1) => {
    });
   };
 
-  export const getCreditDetails = () => {
+  export const getCreditDetails = (id) => {
     return fetch(
       `https://api.themoviedb.org/3/person/${id}?api_key=${process.env.TMDB_KEY}&language=en-US`
     ).then( (response) => {
