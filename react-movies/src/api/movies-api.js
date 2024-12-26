@@ -98,3 +98,31 @@ export const getMovieCredits = async(args) => {
   )
   return response.json(); 
 }; 
+
+//find credits detail by credit id  
+export const getCreditDetails = async(args) => {
+  const [, idPart] = args.queryKey;
+  const { id } = idPart;
+  const response = await fetch(
+    `http://localhost:8080/api/credit/${id}`, {
+    headers: {
+      'Authorization': window.localStorage.getItem('token')
+    }
+  } 
+  )
+  return response.json(); 
+}; 
+
+//find credits detail by credit id  
+export const getCreditMovies = async(args) => {
+  const [, idPart] = args.queryKey;
+  const { id } = idPart;
+  const response = await fetch(
+    `http://localhost:8080/api/credit/${id}/movies`, {
+    headers: {
+      'Authorization': window.localStorage.getItem('token')
+    }
+  } 
+  )
+  return response.json(); 
+}; 

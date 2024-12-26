@@ -1,11 +1,11 @@
 import React from 'react';
 import CreditsSlider from '../components/creditsSidebar';
-import { getCreditDetails } from '../api/tmdb-api';
+import { getCreditDetails } from '../api/movies-api';
 import { useParams } from 'react-router-dom';
 import Spinner from '../components/spinner';
 import { useQuery } from "react-query";
 import CreditDetail from '../components/creditDetail';
-import { getCreditMovies } from "../api/tmdb-api";
+import { getCreditMovies } from "../api/movies-api";
 import CreditMovieList from "../components/creditMovieList"
 
 
