@@ -146,3 +146,21 @@ export const getMovies = (page = 1) => {
       throw error
    });
   };
+
+  
+  // https://api.themoviedb.org/3/person/{person_id}/combined_credits
+  export const getCreditMovies = (id) => {
+    return fetch(
+      `https://api.themoviedb.org/3/person/${id}/combined_credits?api_key=${process.env.TMDB_KEY}&language=en-US`
+    ).then( (response) => {
+      if (!response.ok) {
+        return response.json().then((error) => {
+          throw new Error(error.status_message || "Something went wrong");
+        });
+      }
+      return response.json();
+    })
+    .catch((error) => {
+      throw error
+   });
+  };
