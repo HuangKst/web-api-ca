@@ -70,3 +70,17 @@ export const getTopRateMovies = async(page) => {
   )
   return response.json(); 
 }; 
+
+//find movie reviews by id 
+export const getMovieReviews = async(args) => {
+  const [, idPart] = args.queryKey;
+  const { id } = idPart;
+  const response = await fetch(
+    `http://localhost:8080/api/movies/${id}/reviews`, {
+    headers: {
+      'Authorization': window.localStorage.getItem('token')
+    }
+  } 
+  )
+  return response.json(); 
+}; 
