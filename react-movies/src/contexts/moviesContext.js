@@ -1,38 +1,34 @@
 import React, { useState,useEffect, useContext } from "react";
 import { getFavouriteMovies,addFavouriteMovie,deleteFavouriteMovie } from "../api/favourite-api";
-import AuthContext from "./authContext";
+import { AuthContext } from "./authContext"; 
 export const MoviesContext = React.createContext(null);
 
 
 const MoviesContextProvider = (props) => {
-  
+  const { userId, isAuthenticated } = useContext(AuthContext); 
   const [favorites, setFavorites] = useState( [] )
   const [myReviews, setMyReviews] = useState( {} ) 
   const [playList, setPlayList] = useState([])
 
-  const userId = localStorage.getItem("userId")
-
+  
   
 
+  useEffect(() => {
+    const fetchFavourites = async () => {
+      
+      if (!isAuthenticated || !userId) return;
 
-    useEffect(() => {
-      const fetchFavourites = async () => {
-        if (userId) {
-          // 调用后端API
-          console.log(userId)
-          const data = await getFavouriteMovies(userId);
-          if (Array.isArray(data)) {
-            // data.favourites是数组：[{userId, movieId, _id, ...}, ...]
-            const movieIds = data.map((f) => f.movieId);
-            console.log("movieid" + movieIds);
-            setFavorites(movieIds);
-          } else {
-            console.warn(data.msg || "Failed to fetch favourites");
-          }
-        }
-      };
-      fetchFavourites();
-    },[userId])
+      const data = await getFavouriteMovies(userId);
+      if (Array.isArray(data)) {
+        const movieIds = data.map((f) => f.movieId);
+        setFavorites(movieIds);
+      } else {
+        console.warn(data.msg || "Failed to fetch favourites");
+      }
+    };
+
+    fetchFavourites();
+  }, [isAuthenticated, userId]); 
   
   
 

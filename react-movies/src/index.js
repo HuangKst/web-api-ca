@@ -35,7 +35,7 @@ const Layout = () => {
     <>
       { <SiteHeader />} 
       <Routes>
-        <Route element={<ProtectedRoutes/>}>
+        <Route >
           <Route path="/home" element={<HomePage />} />
           <Route path="/movies/favorites" element={<FavoriteMoviesPage />} />
           <Route path="/reviews/:id" element={<MovieReviewPage />} />
@@ -60,7 +60,7 @@ const App = () => {
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <AuthContextProvider>
-          <MoviesContextProvider>
+          <MoviesContextProvider element={<ProtectedRoutes/>}>
             <Layout /> {/* 将 Layout 放在 BrowserRouter 内部 */}
           </MoviesContextProvider>
         </AuthContextProvider>

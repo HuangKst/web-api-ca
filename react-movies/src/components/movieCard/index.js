@@ -17,9 +17,6 @@ import Avatar from '@mui/material/Avatar';
 import { MoviesContext } from "../../contexts/moviesContext";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
-import { AuthContext } from "../../contexts/authContext";
-
-
 
 export default function MovieCard({ movie, action = () => {} }) {
   

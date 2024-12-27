@@ -1,6 +1,6 @@
 import React, { useState, createContext } from "react";
 import { login, signup } from "../api/users-api";
-import { use } from "react";
+
 
 export const AuthContext = createContext(null);
 
@@ -24,8 +24,9 @@ const AuthContextProvider = (props) => {
       setToken(result.token)
       setIsAuthenticated(true);
       setUserName(username);
-      localStorage.setItem("userId",result.user.userId)
-      setUserId(result.user.userId)
+      localStorage.setItem("userId",result.user.userId);
+      setUserId(result.user.userId);
+      console.log(userId)
     }
   };
 
@@ -51,7 +52,7 @@ const AuthContextProvider = (props) => {
       }}
     >
       {props.children}
-    </AuthContext.Provider>
+    </AuthContext.Provider> 
   );
 };
 
