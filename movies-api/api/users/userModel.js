@@ -3,6 +3,8 @@ import bcrypt from 'bcrypt';
 
 const Schema = mongoose.Schema;
 
+
+
 const UserSchema = new Schema({
   userId: {
     type: String,
@@ -28,26 +30,27 @@ UserSchema.methods.comparePassword = async function (passw) {
 UserSchema.statics.findByUserName = function (username) {
     return this.findOne({ username: username });
 };
-UserSchema.pre('save', async function(next) {
+UserSchema.pre("save", async function (next) {
     if (!this.userId) {
-        this.userId = nanoid(12); 
-        // 这里的 12 表示生成12位的随机字符串，你也可以不传，默认21位
+      // 动态导入 nanoid
+      const { nanoid } = await import("nanoid");
+      this.userId = nanoid(12);
     }
-
-    if (this.isModified('password') || this.isNew) {
+    
+    // 如果密码被修改或是新建
+    if (this.isModified("password") || this.isNew) {
       try {
         const saltRounds = 10;
         const hash = await bcrypt.hash(this.password, saltRounds);
         this.password = hash;
         next();
-    } catch (error) {
-       next(error);
-    }
-  
+      } catch (error) {
+        next(error);
+      }
     } else {
-        next();
+      next();
     }
-});
+  });
   
   
   

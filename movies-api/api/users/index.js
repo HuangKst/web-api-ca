@@ -43,10 +43,20 @@ router.put('/:id', async (req, res) => {
 });
 
 async function registerUser(req, res) {
-    // Add input validation logic here
-    await User.create(req.body);
-    res.status(201).json({ success: true, msg: 'User successfully created.' });
-}
+    try {
+      const newUser = await User.create(req.body);
+      return res.status(201).json({ success: true, msg: 'User successfully created.' });
+    } catch (err) {
+      if (err.code === 11000) {
+        // Duplicate key => 用户名/ID 已存在
+        return res.status(400).json({ success: false, msg: 'Username or userId already taken.' });
+      }
+      // 其它异常
+      console.error(err);
+      return res.status(500).json({ success: false, msg: 'Internal server error.' });
+    }
+  }
+  
 
 async function authenticateUser(req, res) {
     const user = await User.findByUserName(req.body.username);
